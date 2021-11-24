@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Card, Paragraph, Title } from "react-native-paper";
 import { Company } from "../utils/companies";
+import { jobsColors } from "../utils/jobs";
 import { Text } from "./Themed";
 
 export default function CompanyCard(company: Company) {
@@ -11,7 +12,10 @@ export default function CompanyCard(company: Company) {
     <Card style={styles.card}>
       <Card.Cover
         source={{
-          uri: company.image,
+          uri:
+            company.image != ""
+              ? company.image
+              : "https://cdn.discordapp.com/attachments/713958463180505170/913089257273438208/unknown.png",
         }}
       />
       <Card.Content style={styles.content}>
@@ -20,6 +24,9 @@ export default function CompanyCard(company: Company) {
         <View style={styles.techView}>
           <Paragraph style={styles.text}>Jobs: </Paragraph>
           {company.jobs.map((job) => {
+            if(typeof job == 'object') {
+              job = job.id
+            }
             return (
               <Text
                 style={[
@@ -49,20 +56,7 @@ export default function CompanyCard(company: Company) {
 }
 
 function getColors() {
-  let techColors: { [id: string]: string } = {
-    estágio: "#F7F48B",
-    junior: "#70A1D7",
-    pleno: "#F47C7C",
-    senior: "#B4A5D1",
-    quality: "#80BFA0",
-    tester: "#F7F48B",
-    devops: "#70A1D7",
-    'database administrator': "#F47C7C",
-    'scrum master': "#80BFA0",
-    'tech lead': "#70A1D7",
-    design: "#B4A5D1",
-    analista: "#F47C7C"
-  };
+  let techColors = jobsColors
   return techColors;
 }
 

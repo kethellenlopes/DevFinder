@@ -1,15 +1,26 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Title } from "react-native-paper";
 import DevCard from "../components/DevCard";
 import { View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
-import { getUsers } from "../utils/users";
+import { getUsers, User } from "../utils/users";
 
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
-  let users = getUsers();
+  const [users, setUsers]: any[] = React.useState([])
+
+  const getData = async () => {
+    let data = await AsyncStorage.getItem('users')
+    if(data != null) {
+      setUsers(JSON.parse(data))
+    }
+  }
+
+  getData()
+
   return (
     <View>
       <ScrollView>

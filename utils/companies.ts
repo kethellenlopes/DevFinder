@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export interface Company {
   name: string;
   location: string;
@@ -8,6 +10,17 @@ export interface Company {
 
 export function getCompanies() {
   return companies;
+}
+
+export async function addCompany(name, email, location, jobs, image) {
+  companies.push({
+    name: name,
+    email: email,
+    location: location,
+    jobs: jobs,
+    image: image,
+  });
+  await AsyncStorage.setItem("companies", JSON.stringify(companies));
 }
 
 const companies: Company[] = [

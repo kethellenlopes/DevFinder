@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export interface User {
   name: string;
   techs: string[];
@@ -10,7 +12,18 @@ export function getUsers() {
   return users;
 }
 
-const users: User[] = [
+export async function addUser(name, email, phone, techs, image) {
+  users.push({
+    name: name,
+    email: email,
+    phone: phone,
+    techs: techs,
+    image: image,
+  });
+  await AsyncStorage.setItem('users', JSON.stringify(users))
+}
+
+let users: User[] = [
   {
     name: "Kethellen Tayná",
     email: "kethellenrl@gmail.com",
@@ -31,7 +44,16 @@ const users: User[] = [
     name: "Gabriel Saliba",
     email: "gabriel.saliba.179@gmail.com",
     phone: "(31) 971331964",
-    techs: ["python", "java", "react", "node", "html", "scrum", 'git', 'kotlin'],
+    techs: [
+      "python",
+      "java",
+      "react",
+      "node",
+      "html",
+      "scrum",
+      "git",
+      "kotlin",
+    ],
     image:
       "https://cdn.discordapp.com/attachments/713958463180505170/912061096897163284/pp.jpg",
   },

@@ -3,7 +3,9 @@ import { StyleSheet } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Text, View } from "../components/Themed";
 import { RootStackScreenProps } from "../types";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUsers } from "../utils/users";
+import { getCompanies } from "../utils/companies";
 
 export default function LoginScreen({
   navigation,
@@ -26,6 +28,12 @@ export default function LoginScreen({
         darkColor="rgba(255,255,255,0.1)"
       />
     );
+  }
+
+  async function navigateHome() {
+    AsyncStorage.setItem('users', JSON.stringify(getUsers()))
+    AsyncStorage.setItem('companies', JSON.stringify(getCompanies()))
+    navigation.navigate("Home");
   }
 
   return (
@@ -58,7 +66,14 @@ export default function LoginScreen({
 
       {lineSeparator()}
 
-      <Button style={styles.button} contentStyle={{height: styles.button.height}} mode="contained" onPress={() => navigation.navigate('Home')}>Entrar</Button>
+      <Button
+        style={styles.button}
+        contentStyle={{ height: styles.button.height }}
+        mode="contained"
+        onPress={async () => navigateHome()}
+      >
+        Entrar
+      </Button>
     </View>
   );
 }

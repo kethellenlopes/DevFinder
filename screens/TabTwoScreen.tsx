@@ -1,15 +1,26 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Title } from "react-native-paper";
 import CompanyCard from "../components/CompanyCard";
 import { View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
-import { getCompanies } from "../utils/companies";
 
 export default function TabTwoScreen({
   navigation,
 }: RootTabScreenProps<"TabTwo">) {
-  let companies = getCompanies();
+  
+    const [companies, setCompanies]: any[] = React.useState([]);
+
+    const getData = async () => {
+      let data = await AsyncStorage.getItem("companies");
+      if (data != null) {
+        setCompanies(JSON.parse(data));
+      }
+    };
+
+    getData();
+    console.log(companies)
   return (
     <View>
       <ScrollView>
